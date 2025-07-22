@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>金融数据网站黄页 | 专业金融数据资源库</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1a2a6c, #2c3e50);
+            color: #333;
+            line-height: 1.6;
+            padding-bottom: 50px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* 头部样式 */
+        header {
+            background: rgba(13, 25, 54, 0.95);
+            color: white;
+            padding: 20px 0;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .logo-icon {
+            font-size: 2.5rem;
+            color: #4CAF50;
+        }
+        
+        .logo h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            background: linear-gradient(to right, #4CAF50, #8BC34A);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .tagline {
+            font-size: 1.1rem;
+            color: #b0c4de;
+            margin-top: 5px;
+        }
+        
+        /* 筛选区域样式 */
+        .filters {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 12px;
+            padding: 25px;
+            margin: 30px 0;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+        }
+        
+        .filter-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+        
+        .filter-header h2 {
+            font-size: 1.8rem;
+            color: #1a2a6c;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .filter-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .filter-group label {
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #2c3e50;
+            font-size: 1.1rem;
+        }
+        
+        .filter-group select, .filter-group input {
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            background: white;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+        
+        .filter-group select:focus, .filter-group input:focus {
+            border-color: #4CAF50;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.2);
+        }
+        
+        /* 网站卡片样式 */
+        .websites-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 30px;
+            margin-top: 20px;
+        }
+        
+        .website-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+        
+        .website-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+        
+        .card-header {
+            padding: 20px;
+            background: linear-gradient(120deg, #1a2a6c, #2c5282);
+            color: white;
+        }
+        
+        .card-header h3 {
+            font-size: 1.4rem;
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .card-category {
+            display: inline-block;
+            background: rgba(76, 175, 80, 0.9);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-top: 8px;
+        }
+        
+        .card-content {
+            padding: 20px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .card-description {
+            color: #555;
+            margin-bottom: 20px;
+            flex-grow: 1;
+        }
+        
+        .card-stats {
+            display: flex;
+            justify-content: space-between;
+            background: #f8f9fa;
+            padding: 12px 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 0.9rem;
+        }
+        
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .stat-value {
+            font-weight: 700;
+            color: #1a2a6c;
+            font-size: 1.1rem;
+        }
+        
+        .stat-label {
+            color: #6c757d;
+            font-size: 0.85rem;
+        }
+        
+        .card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px 20px;
+        }
+        
+        .visit-btn {
+            background: linear-gradient(to right, #4CAF50, #2E7D32);
+            color: white;
+            padding: 10px 25px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+        }
+        
+        .visit-btn:hover {
+            background: linear-gradient(to right, #3d8b40, #1B5E20);
+            transform: scale(1.05);
+        }
+        
+        .rating {
+            color: #FFC107;
+            font-size: 1.1rem;
+        }
+        
+        /* 页脚样式 */
+        footer {
+            background: rgba(13, 25, 54, 0.95);
+            color: #b0c4de;
+            text-align: center;
+            padding: 25px 0;
+            margin-top: 50px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .footer-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            margin: 20px 0;
+        }
+        
+        .footer-links a {
+            color: #8BC34A;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .footer-links a:hover {
+            color: #4CAF50;
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+                gap: 15px;
+            }
+            
+            .filter-options {
+                grid-template-columns: 1fr;
+            }
+            
+            .websites-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .card-footer {
+                flex-direction: column;
+                gap: 15px;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 头部区域 -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-chart-line logo-icon"></i>
+                    <div>
+                        <h1>金融数据网站黄页</h1>
+                        <p class="tagline">连接全球金融数据资源，助力投资决策</p>
+                    </div>
+                </div>
+                <div class="search-box">
+                    <input type="text" placeholder="搜索金融数据网站..." style="padding: 12px 20px; border-radius: 30px; border: none; width: 300px; font-size: 1rem;">
+                </div>
+            </div>
+        </div>
+    </header>
+    
+    <div class="container">
+        <!-- 筛选区域 -->
+        <section class="filters">
+            <div class="filter-header">
+                <h2><i class="fas fa-sliders-h"></i> 筛选金融数据资源</h2>
+                <button style="background: #4CAF50; color: white; border: none; padding: 10px 25px; border-radius: 8px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 8px;">
+                    <i class="fas fa-sync-alt"></i> 重置筛选
+                </button>
+            </div>
+            
+            <div class="filter-options">
+                <div class="filter-group">
+                    <label for="category"><i class="fas fa-tag"></i> 数据类别</label>
+                    <select id="category">
+                        <option value="all">全部类别</option>
+                        <option value="stock">股票市场</option>
+                        <option value="forex">外汇交易</option>
+                        <option value="crypto">加密货币</option>
+                        <option value="economic">经济指标</option>
+                        <option value="news">金融新闻</option>
+                    </select>
+                </div>
+                
+                <div class="filter-group">
+                    <label for="region"><i class="fas fa-globe"></i> 覆盖区域</label>
+                    <select id="region">
+                        <option value="all">全球范围</option>
+                        <option value="asia">亚洲</option>
+                        <option value="europe">欧洲</option>
+                        <option value="north-america">北美</option>
+                    </select>
+                </div>
+                
+                <div class="filter-group">
+                    <label for="language"><i class="fas fa-language"></i> 支持语言</label>
+                    <select id="language">
+                        <option value="all">所有语言</option>
+                        <option value="chinese">中文</option>
+                        <option value="english">英语</option>
+                        <option value="multilingual">多语言</option>
+                    </select>
+                </div>
+                
+                <div class="filter-group">
+                    <label for="price"><i class="fas fa-coins"></i> 价格模式</label>
+                    <select id="price">
+                        <option value="all">所有模式</option>
+                        <option value="free">免费</option>
+                        <option value="freemium">免费增值</option>
+                        <option value="paid">付费</option>
+                    </select>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 网站展示区域 -->
+        <section class="websites-list">
+            <h2 style="color: white; margin-bottom: 20px; font-size: 1.8rem; display: flex; align-items: center; gap: 10px;">
+                <i class="fas fa-star"></i> 精选金融数据网站
+            </h2>
+            
+            <div class="websites-grid">
+                <!-- 网站卡片 1 -->
+                <div class="website-card">
+                    <div class="card-header">
+                        <h3><i class="fab fa-bloomberg"></i> 彭博终端</h3>
+                        <span class="card-category">综合金融数据</span>
+                    </div>
+                    <div class="card-content">
+                        <p class="card-description">全球领先的金融数据、新闻和分析提供商，为专业投资者提供实时市场数据、交易工具和深度分析。</p>
+                        <div class="card-stats">
+                            <div class="stat-item">
+                                <span class="stat-value">200+</span>
+                                <span class="stat-label">国家覆盖</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-value">实时</span>
+                                <span class="stat-label">数据更新</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-value">专业</span>
+                                <span class="stat-label">用户级别</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                            4.7
+                        </div>
+                        <a href="#" class="visit-btn">
+                            <i class="fas fa-external-link-alt"></i> 访问网站
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- 网站卡片 2 -->
+                <div class="website-card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-chart-bar"></i> TradingView</h3>
+                        <span class="card-category">图表分析</span>
+                    </div>
+                    <div class="card-content">
+                        <p class="card-description">先进的金融可视化平台，提供股票、外汇、加密货币的实时图表、技术分析工具和社交交易功能。</p>
+                        <div class="card-stats">
+                            <div class="stat-item">
+                                <span class="stat-value">50M+</span>
+                                <span class="stat-label">月活用户</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-value">100+</span>
+                                <span class="stat-label">技术指标</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-value">多平台</span>
+                                <span class="stat-label">设备支持</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            4.9
+                        </div>
+                        <a href="#" class="visit-btn">
+                            <i class="fas fa-external-link-alt"></i> 访问网站
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- 网站卡片 3 -->
+                <div class="website-card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-coins"></i> CoinMarketCap</h3>
+                        <span class="card-category">加密货币</span>
+                    </div>
+                    <div class="card-content">
+                        <p class="card-description">全球最权威的加密货币数据平台，提供实时价格、市值、交易量以及区块链项目详细信息。</p>
+                        <div class="card-stats">
+                            <div class="stat-item">
+                                <span class="stat-value">20,000+</span>
+                                <span class="stat-label">加密货币</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-value">500+</span>
+                                <span class="stat-label">交易所</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-value">实时</span>
+                                <span class="stat-label">价格更新</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="far fa-star"></i>
+                            4.3
+                        </div>
+                        <a href="#" class="visit-btn">
+                            <i class="fas fa-external-link-alt"></i> 访问网站
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- 网站卡片 4 -->
+                <div class="website-card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-landmark"></i> 路孚特</h3>
+                        <span class="card-category">金融数据</span>
+                    </div>
+                    <div class="card-content">
+                        <p class="card-description">全球金融市场数据和基础设施提供商，为金融机构提供关键数据、分析工具和交易解决方案。</p>
+                        <div class="card-stats">
+                            <div class="stat-item">
+                                <span class="stat-value">190+</span>
+                                <span class="stat-label">国家/地区</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-value">40,000+</span>
+                                <span class="stat-label">数据源</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-value">专业</span>
+                                <span class="stat-label">用户级别</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                            4.6
+                        </div>
+                        <a href="#" class="visit-btn">
+                            <i class="fas fa-external-link-alt"></i> 访问网站
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- 网站卡片 5 -->
+                <div class="website-card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-globe-americas"></i> 国际货币基金组织数据</h3>
+                        <span class="card-category">经济指标</span>
+                    </div>
+                    <div class="card-content">
+                        <p class="card-description">提供全球宏观经济数据集，包括国际收支、政府财政、货币、利率、商品价格等关键指标。</p>
+                        <div class="card-stats">
+                            <div class="stat-item">
+                                <span class="stat-value">189</span>
+                                <span class="stat-label">成员国</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-value">免费</span>
+                                <span class="stat-label">数据访问</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-value">历史</span>
+                                <span class="stat-label">数据丰富</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="far fa-star"></i>
+                            4.2
+                        </div>
+                        <a href="#" class="visit-btn">
+                            <i class="fas fa-external-link-alt"></i> 访问网站
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- 网站卡片 6 -->
+                <div class="website-card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-newspaper"></i> 华尔街日报市场数据</h3>
+                        <span class="card-category">市场新闻与数据</span>
+                    </div>
+                    <div class="card-content">
+                        <p class="card-description">提供全球股票、债券、商品和外汇市场的实时数据、深度分析和专业财经新闻报道。</p>
+                        <div class="card-stats">
+                            <div class="stat-item">
+                                <span class="stat-value">实时</span>
+                                <span class="stat-label">市场动态</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-value">深度</span>
+                                <span class="stat-label">分析报道</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-value">全球</span>
+                                <span class="stat-label">市场覆盖</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                            4.5
+                        </div>
+                        <a href="#" class="visit-btn">
+                            <i class="fas fa-external-link-alt"></i> 访问网站
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    
+    <!-- 页脚区域 -->
+    <footer>
+        <div class="footer-content">
+            <p>金融数据网站黄页 &copy; 2023 版权所有。提供全球金融数据资源导航服务。</p>
+            <div class="footer-links">
+                <a href="#"><i class="fas fa-user-shield"></i> 隐私政策</a>
+                <a href="#"><i class="fas fa-file-contract"></i> 使用条款</a>
+                <a href="#"><i class="fas fa-envelope"></i> 联系我们</a>
+                <a href="#"><i class="fas fa-question-circle"></i> 常见问题</a>
+            </div>
+            <p>免责声明：本网站仅提供金融数据资源信息，不构成任何投资建议。</p>
+        </div>
+    </footer>
+    
+    <script>
+        // 简单的筛选功能实现
+        document.addEventListener('DOMContentLoaded', function() {
+            const categoryFilter = document.getElementById('category');
+            const websiteCards = document.querySelectorAll('.website-card');
+            
+            categoryFilter.addEventListener('change', function() {
+                const selectedCategory = this.value;
+                
+                websiteCards.forEach(card => {
+                    const cardCategory = card.querySelector('.card-category').textContent.toLowerCase();
+                    
+                    if (selectedCategory === 'all' || cardCategory.includes(selectedCategory)) {
+                        card.style.display = 'flex';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+            
+            // 为所有访问按钮添加点击效果
+            const visitButtons = document.querySelectorAll('.visit-btn');
+            visitButtons.forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> 跳转中...';
+                    setTimeout(() => {
+                        alert('在实际应用中，这里将跳转到目标网站');
+                        this.innerHTML = '<i class="fas fa-external-link-alt"></i> 访问网站';
+                    }, 1000);
+                });
+            });
+        });
+    </script>
+</body>
+</html>
